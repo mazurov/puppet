@@ -1,0 +1,25 @@
+# This file is managed with puppet
+# Do not edit locally
+
+deb http://archive.ubuntu.com/ubuntu/ <%= lsbdistcodename %> main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu/ <%= lsbdistcodename %> main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu/ <%= lsbdistcodename %>-updates main restricted universe multiverse
+deb-src http://archive.ubuntu.com/ubuntu/ <%= lsbdistcodename %>-updates main restricted universe multiverse
+deb http://security.ubuntu.com/ubuntu <%= lsbdistcodename %>-security main restricted universe multiverse
+deb-src http://security.ubuntu.com/ubuntu <%= lsbdistcodename %>-security main restricted universe multiverse
+
+deb http://archive.canonical.com/ <%= lsbdistcodename %> partner
+deb-src http://archive.canonical.com/ <%= lsbdistcodename %> partner
+
+# Google repository
+deb http://dl.google.com/linux/deb/ stable non-free
+deb http://dl.google.com/linux/chrome/deb/ stable main
+
+# VirtualBox
+deb http://download.virtualbox.org/virtualbox/debian <%= lsbdistcodename %> contrib
+
+# Boost
+deb http://ppa.launchpad.net/guido-iodice/natty-quasi-rolling/ubuntu <%= lsbdistcodename %> main
+
+# Dropbox
+deb http://linux.dropbox.com/ubuntu natty main

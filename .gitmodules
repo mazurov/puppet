@@ -1,0 +1,30 @@
+[submodule "files/dotfiles/vim/bundle/nerdtree"]
+	path = files/dotfiles/vim/bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree.git
+[submodule "files/dotfiles/vim/bundle/nerdcommenter"]
+	path = files/dotfiles/vim/bundle/nerdcommenter
+	url = https://github.com/scrooloose/nerdcommenter.git
+[submodule "files/dotfiles/vim/bundle/ack.vim"]
+	path = files/dotfiles/vim/bundle/ack.vim
+	url = https://github.com/mileszs/ack.vim.git
+[submodule "files/dotfiles/vim/bundle/snipmate.vim"]
+	path = files/dotfiles/vim/bundle/snipmate.vim
+	url = https://github.com/msanders/snipmate.vim.git
+[submodule "files/dotfiles/vim/bundle/sparkup"]
+	path = files/dotfiles/vim/bundle/sparkup
+	url = https://github.com/rstacruz/sparkup.git
+[submodule "files/dotfiles/vim/bundle/vim-fugitive"]
+	path = files/dotfiles/vim/bundle/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive.git
+[submodule "files/dotfiles/vim/bundle/vim-repeat"]
+	path = files/dotfiles/vim/bundle/vim-repeat
+	url = https://github.com/tpope/vim-repeat.git
+[submodule "files/dotfiles/vim/bundle/vim-surround"]
+	path = files/dotfiles/vim/bundle/vim-surround
+	url = https://github.com/tpope/vim-surround.git
+[submodule "files/dotfiles/vim/bundle/command-t"]
+	path = files/dotfiles/vim/bundle/command-t
+	url = git://git.wincent.com/command-t.git
+[submodule "files/dotfiles/vim/bundle/bufexplorer"]
+	path = files/dotfiles/vim/bundle/bufexplorer
+	url = https://github.com/slack/vim-bufexplorer.git
