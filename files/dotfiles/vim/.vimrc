@@ -1,341 +1,932 @@
-" After adding this, you can take any plugin,
-" unzip/untar/svn-checkout/git-clone it to its own private directory in
-" .vim/bundle, and it will be added to the runtime path.  This makes it easy to
-" remove or update each plugin individually.
+" .vimrc
+" Author: Steve Losh <steve@stevelosh.com>
+" Source: http://bitbucket.org/sjl/dotfiles/src/tip/vim/
+"
+" This file changes a lot.  I'll try to document pieces of it whenever I have
+" a few minutes to kill.
 
-filetype plugin off
+" Preamble -------------------------------------------------------------------- {{{
+
+filetype off
 call pathogen#runtime_append_all_bundles()
-" Color scheme:
-colorscheme desert
-"-------------------------
-" Базовые настройки
-"-------------------------
-let mapleader = ","
-" Включаем несовместимость настроек с Vi (ибо Vi нам и не понадобится).
+filetype plugin indent on
 set nocompatible
-set modelines=0
 
-" Показывать положение курсора всё время.
-set ruler
+" }}}
+" Basic options --------------------------------------------------------------- {{{
 
-" Показывать незавершённые команды в статусбаре
-"set showcmd
-
-" Включаем нумерацию строк
-set relativenumber
-
-" Фолдинг по отсупам
-" set foldmethod=syntax
-
-" Поиск по набору текста (очень полезная функция)
-set incsearch
-set ignorecase
-set smartcase
-set gdefault
-set showmatch
-set hlsearch
-" Отключаем подстветку найденных вариантов, и так всё видно.
-"set nohlsearch
-
-" Теперь нет необходимости передвигать курсор к краю экрана, чтобы подняться
-" в режиме редактирования
-set scrolljump=7
-
-" Теперь нет необходимости передвигать курсор к краю экрана, чтобы опуститься в
-" режиме редактирования
-set scrolloff=7
-
-" Выключаем надоедливый "звонок"
-set novisualbell
-set t_vb=
-
-" Поддержка мыши
-set mouse=a
-set mousemodel=popup
-
-" Кодировка текста по умолчанию
 set encoding=utf-8
-set termencoding=utf-8
-
-" Не выгружать буфер, когда переключаемся на другой
-" Это позволяет редактировать несколько файлов в один и тот же момент без
-" необходимости сохранения каждый раз
-" когда переключаешься между ними
-set hidden
-
-" Скрыть панель в gui версии ибо она не нужна
-set guioptions-=T
-set guioptions-=m
-
-" Сделать строку команд высотой в одну строку
-set ch=1
-
-" Скрывать указатель мыши, когда печатаем
-set mousehide
-
-" Включить автоотступы
+set modelines=0
+set scrolloff=3
 set autoindent
-
-" Влючить подстветку синтаксиса
-syntax on
-
-" allow to use backspace instead of "x"
-set backspace=indent,eol,start whichwrap+=<,>,[,]
-
-" Преобразование Таба в пробелы
-set expandtab
-
-" Размер табулации по умолчанию
-set shiftwidth=2
-set softtabstop=2
-set tabstop=2
-
-" Формат строки состояния
-set statusline=%<%f%h%m%r\ %b\ %{&encoding}\ 0x\ \ %l,%c%V\ %P
-set laststatus=2
-
-" Включаем "умные" отспупы ( например, автоотступ после {)
-set smartindent
-
-" Fix <Enter> for comment
-set fo+=cr
-
-
-" http://stevelosh.com/blog/2010/09/coming-home-to-vim/
 set showmode
-set cursorline
-set ttyfast
-set undofile
-
-nnoremap / /\v
-vnoremap / /\v
-nnoremap <leader><space> :noh<cr>
-nnoremap <tab> %
-vnoremap <tab> %
-
-set list
-set listchars=tab:▸\ ,eol:¬
-hi NonText ctermfg=4 guifg=#3c3737 guibg=#333333
-hi SpecialKey ctermfg=4 guifg=#3c3737 guibg=#333333
-
-nnoremap <up> <nop>
-nnoremap <down> <nop>
-nnoremap <left> <nop>
-nnoremap <right> <nop>
-inoremap <up> <nop>
-inoremap <down> <nop>
-inoremap <left> <nop>
-inoremap <right> <nop>
-nnoremap j gj
-nnoremap k gk
-
-nnoremap ; :
-
-au FocusLost * :wa
-"I use ,W to mean “strip all trailing whitespace in the current file”
-nnoremap <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
-nnoremap <leader>a :Ack
-"I work with HTML often, so I have ,ft mapped to a “fold tag” function
-nnoremap <leader>ft Vatzf
-nnoremap <leader>S ?{<CR>jV/^\s*\}?$<CR>k:sort<CR>:noh<CR>
-nnoremap <leader>q gqip
-nnoremap <leader>v V`]
-nnoremap <leader>ev <C-w><C-v><C-l>:e $MYVIMRC<cr>
-inoremap jj <ESC>
-nnoremap <leader>w <C-w>v<C-w>l
-nnoremap <C-h> <C-w>h
-nnoremap <C-j> <C-w>j
-nnoremap <C-k> <C-w>k
-nnoremap <C-l> <C-w>l
-
-let g:ackprg="ack-grep -H --nocolor --nogroup --column"
-
-" NERDTree options
-let g:NERDTreeShowBookmarks=1
-" Snippets
-let g:snippets_dir=$HOME . "/.vim/snippets"
-"-------------------------
-" Горячие клавишы
-"-------------------------
-
-" Пробел в нормальном режиме перелистывает страницы
-nmap <Space> <PageDown>
-
-" CTRL-F для omni completion
-imap <C-F> <C-X><C-O>
-
-" C-c and C-v - Copy/Paste в "глобальный клипборд"
-vmap <C-C> "+yi
-imap <C-V> <esc>"+gPi
-
-" Заставляем shift-insert работать как в Xterm
-map <S-Insert> <MiddleMouse>
-
-" C-y - удаление текущей строки
-nmap <C-y> dd
-imap <C-y> <esc>ddi
-
-" C-d - дублирование текущей строки
-imap <C-d> <esc>yypi
-
-" Поиск и замена слова под курсором
-"nmap ; :%s/\<<c-r>=expand("<cword>")<cr>\>/
-
-" F2 - быстрое сохранение
-nmap <F2> :w<cr>
-vmap <F2> <esc>:w<cr>i
-imap <F2> <esc>:w<cr>i
-
-" F3 - просмотр ошибок
-nmap <F3> :copen<cr>
-vmap <F3> <esc>:copen<cr>
-imap <F3> <esc>:copen<cr>
-
-" F5 - просмотр списка буферов
-nmap <F5> <Esc>:BufExplorer<cr>
-vmap <F5> <esc>:BufExplorer<cr>
-imap <F5> <esc><esc>:BufExplorer<cr>
-
-" F6 - предыдущий буфер
-map <F6> :bp<cr>
-vmap <F6> <esc>:bp<cr>i
-imap <F6> <esc>:bp<cr>i
-
-" F7 - следующий буфер
-map <F7> :bn<cr>
-vmap <F7> <esc>:bn<cr>i
-imap <F7> <esc>:bn<cr>i
-
-" F8 - список закладок
-map <F8> :MarksBrowser<cr>
-vmap <F8> <esc>:MarksBrowser<cr>
-imap <F8> <esc>:MarksBrowser<cr>
-
-" F9 - "make" команда
-map <F9> :make<cr>
-vmap <F9> <esc>:make<cr>i
-imap <F9> <esc>:make<cr>i
-
-" F10 - удалить буфер
-map <F10> :bd<cr>
-vmap <F10> <esc>:bd<cr>
-imap <F10> <esc>:bd<cr>
-
-" Alt-F12 - показать окно Taglist
-map <M-F12> :TlistToggle<cr>
-vmap <M-F12> <esc>:TlistToggle<cr>
-imap <M-F12> <esc>:TlistToggle<cr>
-
-" F12 - обозреватель файлов
-map <F12> :NERDTree<cr>
-vmap <F12> <esc>:NERDTree<cr>i
-imap <F12> <esc>:NERDTree<cr>i
-
-" < & > - делаем отступы для блоков
-vmap < <gv
-vmap > >gv
-
-" Выключаем ненавистный режим замены
-imap >Ins> <Esc>i
-
-" Меню выбора кодировки текста (koi8-r, cp1251, cp866, utf8)
+set showcmd
+set hidden
 set wildmenu
 set wildmode=list:longest
-set wcm=<Tab>
-menu Encoding.koi8-r :e ++enc=koi8-r<CR>
-menu Encoding.windows-1251 :e ++enc=cp1251<CR>
-menu Encoding.cp866 :e ++enc=cp866<CR>
-menu Encoding.utf-8 :e ++enc=utf8 <CR>
+set visualbell
+set cursorline
+set ttyfast
+set ruler
+set backspace=indent,eol,start
+set nonumber
+set norelativenumber
+set laststatus=2
+set history=1000
+set undofile
+set undoreload=10000
+set cpoptions+=J
+set list
+set listchars=tab:▸\ ,eol:¬
+set shell=/bin/bash
+set lazyredraw
+set wildignore+=*.pyc,.hg,.git
+set matchtime=3
+set showbreak=↪
+set splitbelow
+set splitright
 
-" Редко когда надо [ без пары =)
-imap [ []<LEFT>
-" Аналогично и для {
-imap {<CR> {<CR>}<Esc>O
+" Save when losing focus
+au FocusLost * :wa
 
-" С-q - выход из Vim
-map <C-Q> <Esc>:qa<cr>
+" Resize splits when the window is resized
+au VimResized * exe "normal! \<c-w>="
 
+" Tabs, spaces, wrapping {{{
 
-" Автозавершение слов по tab =)
-function InsertTabWrapper()
-     let col = col('.') - 1
-     if !col || getline('.')[col - 1] !~ '\k'
-         return "\<tab>"
-     else
-         return "\<c-p>"
-     endif
-endfunction
-imap <tab> <c-r>=InsertTabWrapper()<cr>
-
-" Слова откуда будем завершать
-set complete=""
-" Из текущего буфера
-set complete+=.
-" Из словаря
-set complete+=k
-" Из других открытых буферов
-set complete+=b
-" из тегов
-set complete+=t
-
-" Включаем filetype плугин. Настройки, специфичные для определынных файлов мы
-" разнесём по разным местам
-filetype plugin indent on
-"au BufRead,BufNewFile *.phps    set filetype=php
-"au BufRead,BufNewFile *.thtml    set filetype=php
-
-" Настройки для SessionMgr
-let g:SessionMgr_AutoManage = 0
-let g:SessionMgr_DefaultName = "mysession"
-let g:SessionMgr_Dir = "/home/mazurov/.vim/sessions"
-
-" Настройки для Tlist (показвать только текущий файл в окне навигации по  коду)
-let g:Tlist_Show_One_File = 1
-let g:Tlist_Use_Right_Window = 1
-
-set completeopt-=preview
-set completeopt+=longest
-set mps-=[:]
-
-" Mazurov
-set directory=~/.vim/swap
-au BufNewFile,BufRead *.module set filetype=php
-" set guifont=Consolas\ 11
-set guifont=Monaco\ 10
-
-if has("gui_running")
-  " GUI is running or is about to start.
-  " Maximize gvim window.
-  set lines=99999
-  set columns=200
-endif
-"else
-"  " This is console Vim.
-"  if exists("+lines")
-"    set lines=50
-"  endif
-"  if exists("+columns")
-"    set columns=100
-"  endif
-"endif
-
-let &printexpr="(v:cmdarg=='' ? ".
-    \"system('lpr' . (&printdevice == '' ? '' : ' -P' . &printdevice)".
-    \". ' ' . v:fname_in) . delete(v:fname_in) + v:shell_error".
-    \" : system('mv '.v:fname_in.' '.v:cmdarg) + v:shell_error)"
-
-command! -nargs=0 -bang WSudo :silent! w !sudo tee % &>/dev/null
-
-nnoremap <F4>> :set invpaste paste?<CR>
-imap <F4> <C-O><F4>
-set pastetoggle=<F4>
-
-if version >= 703
-" color column
-set cc=81
-hi ColorColumn ctermbg=lightgrey guibg=lightgrey
-endif
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set expandtab
 set wrap
-set textwidth=79
+set textwidth=85
 set formatoptions=qrn1
+set colorcolumn=+1
 
+" }}}
+" Status line {{{
+
+set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)
+
+" }}}
+" Backups {{{
+
+set undodir=~/.vim/tmp/undo//     " undo files
+set backupdir=~/.vim/tmp/backup// " backups
+set directory=~/.vim/tmp/swap//   " swap files
+set backup                        " enable backups
+
+" }}}
+" Leader {{{
+
+let mapleader = ","
+let maplocalleader = "\\"
+
+" }}}
+" Color scheme {{{
+
+syntax on
+set background=dark
+colorscheme molokai
+
+" }}}
+
+" }}}
+" Useful abbreviations -------------------------------------------------------- {{{
+
+iabbrev ldis ಠ_ಠ
+iabbrev am/ http://amazurov.ru/
+iabbrev ghm/ http://github.com/mazurov
+iabbrev am@ alexander.mazurov@gmail.com
+
+" }}}
+" Searching and movement ------------------------------------------------------ {{{
+
+" Use sane regexes.
+nnoremap / /\v
+vnoremap / /\v
+
+set ignorecase
+set smartcase
+
+set incsearch
+set showmatch
+set hlsearch
+
+set gdefault
+
+set virtualedit+=block
+
+map <leader><space> :noh<cr>
+
+runtime macros/matchit.vim
+map <tab> %
+
+nnoremap Y y$
+nnoremap D d$
+
+" Keep search matches in the middle of the window.
+nnoremap * *zzzv
+nnoremap # #zzzv
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+" L is easier to type, and I never use the default behavior.
+noremap L $
+
+" Heresy
+inoremap <c-a> <esc>I
+inoremap <c-e> <esc>A
+
+" Open a Quickfix window for the last search
+nnoremap <silent> <leader>/ :execute 'vimgrep /'.@/.'/g %'<CR>:copen<CR>
+
+" Fix linewise visual selection of various text objects
+nnoremap Vit vitVkoj
+nnoremap Vat vatV
+nnoremap Vab vabV
+nnoremap VaB vaBV
+
+" Error navigation {{{
+"
+"             Location List     QuickFix Window
+"            (e.g. Syntastic)     (e.g. Ack)
+"            ----------------------------------
+" Next      |     M-k               M-Down     |
+" Previous  |     M-l                M-Up      |
+"            ----------------------------------
+"
+nnoremap ˚ :lnext<cr>zvzz
+nnoremap ¬ :lprevious<cr>zvzz
+inoremap ˚ <esc>:lnext<cr>zvzz
+inoremap ¬ <esc>:lprevious<cr>zvzz
+nnoremap <m-Down> :cnext<cr>zvzz
+nnoremap <m-Up> :cprevious<cr>zvzz
+" }}}
+
+" Directional Keys {{{
+
+" Why stretch?
+noremap h ;
+noremap j h
+noremap k gj
+noremap l gk
+noremap ; l
+
+" Easy buffer navigation
+" Note: For this section to make any sense you need to remap Ctrl-; to Ctrl-g at
+"       the KEYBOARD level.  The reason is that for some reason the OS X doesn't
+"       recognize the Ctrl+; combination as something special, so it just passes it
+"       to Vim as a semicolon.
+"
+"       Yeah, it's dumb.
+noremap <C-j>  <C-w>h
+noremap <C-k>  <C-w>j
+noremap <C-l>  <C-w>k
+noremap <C-g>  <C-w>l
+noremap <leader>g <C-w>v
+
+" }}}
+
+" }}}
+" Folding --------------------------------------------------------------------- {{{
+
+set foldlevelstart=0
+
+" Space to toggle folds.
+nnoremap <Space> za
+vnoremap <Space> za
+
+" Make zO recursively open whatever top level fold we're in, no matter where the
+" cursor happens to be.
+nnoremap zO zCzO
+
+function! MyFoldText() " {{{
+    let line = getline(v:foldstart)
+
+    let nucolwidth = &fdc + &number * &numberwidth
+    let windowwidth = winwidth(0) - nucolwidth - 3
+    let foldedlinecount = v:foldend - v:foldstart
+
+    " expand tabs into spaces
+    let onetab = strpart('          ', 0, &tabstop)
+    let line = substitute(line, '\t', onetab, 'g')
+
+    let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+    let fillcharcount = windowwidth - len(line) - len(foldedlinecount)
+    return line . '…' . repeat(" ",fillcharcount) . foldedlinecount . '…' . ' '
+endfunction " }}}
+set foldtext=MyFoldText()
+
+" }}}
+" Destroy infuriating keys ---------------------------------------------------- {{{
+
+" Fuck you, help key.
+set fuoptions=maxvert,maxhorz
+noremap <F1> :set invfullscreen<CR>
+inoremap <F1> <ESC>:set invfullscreen<CR>a
+
+" Fuck you too, manual key.
+nnoremap K <nop>
+
+" Stop it, hash key.
+inoremap # X<BS>#
+
+" }}}
+" Various filetype-specific stuff --------------------------------------------- {{{
+
+" C {{{
+
+au FileType c setlocal foldmethod=syntax
+
+" }}}
+" Clojure {{{
+
+au FileType clojure call TurnOnClojureFolding()
+
+" Eval toplevel form, even when you're on the opening paren.
+au FileType clojure nmap <localleader>ee 0;\et
+
+" }}}
+" Confluence {{{
+
+au BufRead,BufNewFile *.confluencewiki setlocal filetype=confluencewiki
+
+" Wiki pages should be soft-wrapped.
+au FileType confluencewiki setlocal wrap linebreak nolist
+
+" }}}
+" Cram {{{
+
+au BufNewFile,BufRead *.t set filetype=cram
+
+let cram_fold=1
+autocmd Syntax cram setlocal foldlevel=1
+
+" }}}
+" CSS and LessCSS {{{
+
+au BufNewFile,BufRead *.less setlocal filetype=less
+
+au BufNewFile,BufRead *.css  setlocal foldmethod=marker
+au BufNewFile,BufRead *.less setlocal foldmethod=marker
+
+au BufNewFile,BufRead *.css  setlocal foldmarker={,}
+au BufNewFile,BufRead *.less setlocal foldmarker={,}
+
+" Use cc to change lines without borking the indentation.
+au BufNewFile,BufRead *.css  nnoremap <buffer> cc ddko
+au BufNewFile,BufRead *.less nnoremap <buffer> cc ddko
+
+" Use <leader>S to sort properties.  Turns this:
+"
+"     p {
+"         width: 200px;
+"         height: 100px;
+"         background: red;
+"
+"         ...
+"     }
+"
+" into this:
+
+"     p {
+"         background: red;
+"         height: 100px;
+"         width: 200px;
+"
+"         ...
+"     }
+"
+au BufNewFile,BufRead *.css  nnoremap <buffer> <localleader>S ?{<CR>jV/\v^\s*\}?$<CR>k:sort<CR>:noh<CR>
+au BufNewFile,BufRead *.less nnoremap <buffer> <localleader>S ?{<CR>jV/\v^\s*\}?$<CR>k:sort<CR>:noh<CR>
+
+" Make {<cr> insert a pair of brackets in such a way that the cursor is correctly
+" positioned inside of them AND the following code doesn't get unfolded.
+au BufNewFile,BufRead *.css  inoremap <buffer> {<cr> {}<left><cr>.<cr><esc>kA<bs><space><space><space><space>
+au BufNewFile,BufRead *.less inoremap <buffer> {<cr> {}<left><cr>.<cr><esc>kA<bs><space><space><space><space>
+
+" }}}
+" Django {{{
+
+au BufNewFile,BufRead urls.py      setlocal nowrap
+au BufNewFile,BufRead urls.py      normal! zR
+au BufNewFile,BufRead dashboard.py normal! zR
+
+au BufNewFile,BufRead admin.py     setlocal filetype=python.django
+au BufNewFile,BufRead urls.py      setlocal filetype=python.django
+au BufNewFile,BufRead models.py    setlocal filetype=python.django
+au BufNewFile,BufRead views.py     setlocal filetype=python.django
+au BufNewFile,BufRead settings.py  setlocal filetype=python.django
+au BufNewFile,BufRead settings.py  setlocal foldmethod=marker
+au BufNewFile,BufRead forms.py     setlocal filetype=python.django
+au BufNewFile,BufRead common_settings.py  setlocal filetype=python.django
+au BufNewFile,BufRead common_settings.py  setlocal foldmethod=marker
+
+" }}}
+" Firefox {{{
+
+au BufRead,BufNewFile ~/Library/Caches/* setlocal buftype=nofile
+
+" }}}
+" Fish {{{
+
+au BufNewFile,BufRead *.fish setlocal filetype=fish
+
+" }}}
+" HTML and HTMLDjango {{{
+
+au BufNewFile,BufRead *.html setlocal filetype=htmldjango
+au BufNewFile,BufRead *.html setlocal foldmethod=manual
+
+" Use <localleader>f to fold the current tag.
+au BufNewFile,BufRead *.html nnoremap <buffer> <localleader>f Vatzf
+au BufNewFile,BufRead *.html nnoremap <buffer> VV vatV
+
+" Use Shift-Return to turn this:
+"     <tag>|</tag>
+"
+" into this:
+"     <tag>
+"         |
+"     </tag>
+au BufNewFile,BufRead *.html inoremap <buffer> <s-cr> <cr><esc>kA<cr>
+au BufNewFile,BufRead *.html nnoremap <buffer> <s-cr> vit<esc>a<cr><esc>vito<esc>i<cr><esc>
+
+" Sparkup mappings:
+"
+" <c-e><space> to expand sparkup normally:
+"     <p>|</p>
+"
+" <c-e><return> to force an expanded sparkup.
+"     <p>
+"         |
+"     </p>
+au BufNewFile,BufRead *.html imap <buffer> <c-s><cr> <c-s><s-cr>
+au BufNewFile,BufRead *.html imap <buffer> <c-s><space> <c-s>.<bs>
+
+" Django tags
+au FileType jinja,htmldjango inoremap <buffer> <c-t> {%<space><space>%}<left><left><left>
+
+" Django variables
+au FileType jinja,htmldjango inoremap <buffer> <c-f> {{<space><space>}}<left><left><left>
+
+" }}}
+" Javascript {{{
+
+au FileType javascript setlocal foldmethod=marker
+au FileType javascript setlocal foldmarker={,}
+
+" }}}
+" Lisp {{{
+
+au FileType lisp call TurnOnLispFolding()
+
+" }}}
+" Markdown {{{
+
+au BufNewFile,BufRead *.m*down setlocal filetype=markdown
+
+" Use <localleader>1/2/3 to add headings.
+au Filetype markdown nnoremap <buffer> <localleader>1 yypVr=
+au Filetype markdown nnoremap <buffer> <localleader>2 yypVr-
+au Filetype markdown nnoremap <buffer> <localleader>3 I### <ESC>
+
+" }}}
+" Nginx {{{
+
+au BufRead,BufNewFile /etc/nginx/conf/*                      set ft=nginx
+au BufRead,BufNewFile /etc/nginx/sites-available/*           set ft=nginx
+au BufRead,BufNewFile /usr/local/etc/nginx/sites-available/* set ft=nginx
+
+" }}}
+" Pentadactyl {{{
+
+au BufNewFile,BufRead .pentadactylrc set filetype=pentadactyl
+
+" }}}
+" Puppet {{{
+
+au Filetype puppet setlocal foldmethod=marker
+au Filetype puppet setlocal foldmarker={,}
+
+" }}}
+" Python {{{
+
+au Filetype python noremap  <localleader>rr :RopeRename<CR>
+au Filetype python vnoremap <localleader>rm :RopeExtractMethod<CR>
+au Filetype python noremap  <localleader>ri :RopeOrganizeImports<CR>
+au FileType python setlocal omnifunc=pythoncomplete#Complete
+
+" }}}
+" ReStructuredText {{{
+
+au Filetype rst nnoremap <buffer> <localleader>1 yypVr=
+au Filetype rst nnoremap <buffer> <localleader>2 yypVr-
+au Filetype rst nnoremap <buffer> <localleader>3 yypVr~
+au Filetype rst nnoremap <buffer> <localleader>4 yypVr`
+
+" }}}
+" Vagrant {{{
+
+au BufRead,BufNewFile Vagrantfile set ft=ruby
+
+" }}}
+" Vim {{{
+
+au FileType vim setlocal foldmethod=marker
+au FileType help setlocal textwidth=78
+
+" }}}
+
+" }}}
+" Quick editing --------------------------------------------------------------- {{{
+
+nnoremap <leader>ev <C-w>s<C-w>j<C-w>L:e $MYVIMRC<cr>
+nnoremap <leader>es <C-w>s<C-w>j<C-w>L:e ~/.vim/snippets/<cr>
+nnoremap <leader>eo <C-w>s<C-w>j<C-w>L:e ~/Dropbox/Org<cr>4j
+
+" }}}
+" Convenience mappings -------------------------------------------------------- {{{
+
+" Clean whitespace
+map <leader>W :%s/\s\+$//<cr>:let @/=''<CR>
+
+" Change case
+nnoremap <C-u> gUiw
+inoremap <C-u> <esc>gUiwea
+
+" Yankring
+nnoremap <silent> <F6> :YRShow<cr>
+
+" Formatting, TextMate-style
+nnoremap <leader>q gqip
+
+" Easier linewise reselection
+nnoremap <leader>v V`]
+
+" HTML tag closing
+inoremap <C-_> <Space><BS><Esc>:call InsertCloseTag()<cr>a
+
+" Faster Esc
+inoremap jk <ESC>
+
+" Marks and Quotes
+noremap ' `
+noremap æ '
+noremap ` <C-^>
+
+" Calculator
+inoremap <C-B> <C-O>yiW<End>=<C-R>=<C-R>0<CR>
+
+" Better Completion
+set completeopt=longest,menuone,preview
+inoremap <expr> <CR>  pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <C-p> pumvisible() ? '<C-n>'  : '<C-n><C-r>=pumvisible() ? "\<lt>up>" : ""<CR>'
+inoremap <expr> <C-n> pumvisible() ? '<C-n>'  : '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+
+" Rainbows!
+nmap <leader>R :RainbowParenthesesToggle<CR>
+
+" Sudo to write
+cmap w!! w !sudo tee % >/dev/null
+
+" Easy filetype switching
+nnoremap _hd :set ft=htmldjango<CR>
+nnoremap _jt :set ft=htmljinja<CR>
+nnoremap _cw :set ft=confluencewiki<CR>
+nnoremap _pd :set ft=python.django<CR>
+nnoremap _d  :set ft=diff<CR>
+nnoremap _a  :AnsiEsc<CR>
+
+" Toggle paste
+set pastetoggle=<F8>
+
+" Replaste
+nnoremap <D-p> "_ddPV`]
+
+" }}}
+" Plugin settings ------------------------------------------------------------- {{{
+
+" Ack {{{
+
+map <leader>a :Ack! 
+
+" }}}
+" NERD Tree {{{
+
+noremap <F2> :NERDTreeToggle<cr>
+inoremap <F2> <esc>:NERDTreeToggle<cr>
+let NERDTreeIgnore=['.vim$', '\~$', '.*\.pyc$', 'pip-log\.txt$', 'whoosh_index', 'xapian_index', '.*.pid', 'monitor.py', '.*-fixtures-.*.json', '.*\.o$']
+au Filetype nerdtree setlocal nolist
+
+" }}}
+" HTML5 {{{
+
+let g:event_handler_attributes_complete = 0
+let g:rdfa_attributes_complete = 0
+let g:microdata_attributes_complete = 0
+let g:atia_attributes_complete = 0
+
+" }}}
+" Rope {{{
+
+let ropevim_enable_shortcuts = 0
+let ropevim_guess_project = 1
+let ropevim_global_prefix = '<C-c>p'
+
+source $HOME/.vim/sadness/sadness.vim
+
+" }}}
+" Gundo {{{
+
+nnoremap <F5> :GundoToggle<CR>
+let g:gundo_debug = 1
+let g:gundo_preview_bottom = 1
+let g:gundo_map_move_older = "k"
+let g:gundo_map_move_newer = "l"
+
+" }}}
+" VimClojure {{{
+
+let vimclojure#HighlightBuiltins = 1
+let vimclojure#ParenRainbow = 1
+let vimclojure#WantNailgun = 1
+let vimclojure#NailgunClient = $HOME . "/.vim/bundle/vimclojure/bin/ng"
+let vimclojure#SplitPos = "right"
+
+" }}}
+" Syntastic {{{
+
+let g:syntastic_enable_signs=1
+let g:syntastic_disabled_filetypes = ['html', 'python']
+
+" }}}
+" Command-T {{{
+
+let g:CommandTMaxHeight = 20
+
+" }}}
+" LISP (built-in) {{{
+
+let g:lisp_rainbow = 1
+
+" }}}
+" Easymotion {{{
+
+let g:EasyMotion_do_mapping = 0
+
+nnoremap <silent> <Leader>f      :call EasyMotionF(0, 0)<CR>
+vnoremap <silent> <Leader>f :<C-U>call EasyMotionF(1, 0)<CR>
+
+nnoremap <silent> <Leader>F      :call EasyMotionF(0, 1)<CR>
+vnoremap <silent> <Leader>F :<C-U>call EasyMotionF(1, 1)<CR>
+
+" }}}
+" Sparkup {{{
+
+let g:sparkupExecuteMapping = '<c-s>'
+let g:sparkupNextMapping = '<c-q>'
+
+"}}}
+" Autoclose {{{
+
+nmap <Leader>x <Plug>ToggleAutoCloseMappings
+
+" }}}
+" Tasklist {{{
+
+let g:tlRememberPosition = 1
+map <leader>td <Plug>TaskList
+
+" }}}
+" Pydoc {{{
+
+au FileType python noremap <buffer> <localleader>lw :call ShowPyDoc('<C-R><C-W>', 1)<CR>
+au FileType python noremap <buffer> <localleader>lW :call ShowPyDoc('<C-R><C-A>', 1)<CR>
+
+" }}}
+" Scratch {{{
+
+command! ScratchToggle call ScratchToggle()
+function! ScratchToggle() " {{{
+  if exists("w:is_scratch_window")
+    unlet w:is_scratch_window
+    exec "q"
+  else
+    exec "normal! :Sscratch\<cr>\<C-W>J:resize 13\<cr>"
+    let w:is_scratch_window = 1
+  endif
+endfunction " }}}
+nnoremap <silent> <leader><tab> :ScratchToggle<cr>
+
+" }}}
+" OrgMode {{{
+let g:org_plugins = ['ShowHide', '|', 'Navigator', 'EditStructure', '|', 'Todo', 'Date', 'Misc']
+
+let g:org_todo_keywords = ['TODO', '|', 'DONE']
+let g:org_debug = 1
+" }}}
+" DirDiff {{{
+map <unique> <Leader>Dg <Plug>DirDiffGet
+map <unique> <Leader>Dp <Plug>DirDiffPut
+map <unique> <Leader>Dj <Plug>DirDiffNext
+map <unique> <Leader>Dk <Plug>DirDiffPrev
+" }}}
+" SLIMV {{{
+
+" First check if SWANK is bundled with Slimv
+let swanks = split( globpath( &runtimepath, 'slime/start-swank.lisp'), '\n' )
+
+if len( swanks ) == 0
+    " Try to find SWANK in the standard SLIME installation locations
+    if exists('g:slimv_windows')
+        if g:slimv_windows || g:slimv_cygwin
+            let swanks = split( globpath( 'c:/slime/,c:/*lisp*/slime/,c:/*lisp*/site/lisp/slime/,c:/Program Files/*lisp*/site/lisp/slime/', 'start-swank.lisp' ), '\n' )
+        else
+            let swanks = split( globpath( '/usr/share/common-lisp/source/slime/', 'start-swank.lisp' ), '\n' )
+        endif
+    endif
+endif
+
+if len( swanks ) != 0
+    let g:slimv_swank_cmd = '! dtach -n /tmp/swank.socket sbcl --load "' . swanks[0] . '"'
+    let g:slimv_swank_cmd = '! dtach -n /tmp/swank.socket clisp -i "' . swanks[0] . '"'
+endif
+
+
+" }}}}
+" Threesome {{{
+
+let g:threesome_initial_mode = "grid"
+
+let g:threesome_initial_layout_grid = 0
+let g:threesome_initial_layout_loupe = 0
+let g:threesome_initial_layout_compare = 0
+let g:threesome_initial_layout_path = 0
+
+let g:threesome_initial_diff_grid = 0
+let g:threesome_initial_diff_loupe = 0
+let g:threesome_initial_diff_compare = 0
+let g:threesome_initial_diff_path = 0
+
+let g:threesome_initial_scrollbind_grid = 0
+let g:threesome_initial_scrollbind_loupe = 0
+let g:threesome_initial_scrollbind_compare = 0
+let g:threesome_initial_scrollbind_path = 0
+
+let g:threesome_wrap = "nowrap"
+
+" }}}
+
+" }}}
+" Synstack -------------------------------------------------------------------- {{{
+
+" Show the stack of syntax hilighting classes affecting whatever is under the
+" cursor.
+function! SynStack() " {{{
+  if !exists("*synstack")
+    return
+  endif
+
+  echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
+endfunc " }}}
+
+nmap <M-S> :call SynStack()<CR>
+
+" }}}
+" Text objects ---------------------------------------------------------------- {{{
+
+" Shortcut for [] {{{
+
+onoremap id i[
+onoremap ad a[
+vnoremap id i[
+vnoremap ad a[
+
+" }}}
+" Next/Last () {{{
+vnoremap <silent> inb :<C-U>normal! f(vib<cr>
+onoremap <silent> inb :<C-U>normal! f(vib<cr>
+vnoremap <silent> anb :<C-U>normal! f(vab<cr>
+onoremap <silent> anb :<C-U>normal! f(vab<cr>
+vnoremap <silent> in( :<C-U>normal! f(vi(<cr>
+onoremap <silent> in( :<C-U>normal! f(vi(<cr>
+vnoremap <silent> an( :<C-U>normal! f(va(<cr>
+onoremap <silent> an( :<C-U>normal! f(va(<cr>
+
+vnoremap <silent> ilb :<C-U>normal! F)vib<cr>
+onoremap <silent> ilb :<C-U>normal! F)vib<cr>
+vnoremap <silent> alb :<C-U>normal! F)vab<cr>
+onoremap <silent> alb :<C-U>normal! F)vab<cr>
+vnoremap <silent> il( :<C-U>normal! F)vi(<cr>
+onoremap <silent> il( :<C-U>normal! F)vi(<cr>
+vnoremap <silent> al( :<C-U>normal! F)va(<cr>
+onoremap <silent> al( :<C-U>normal! F)va(<cr>
+" }}}
+" Next/Last {} {{{
+vnoremap <silent> inB :<C-U>normal! f{viB<cr>
+onoremap <silent> inB :<C-U>normal! f{viB<cr>
+vnoremap <silent> anB :<C-U>normal! f{vaB<cr>
+onoremap <silent> anB :<C-U>normal! f{vaB<cr>
+vnoremap <silent> in{ :<C-U>normal! f{vi{<cr>
+onoremap <silent> in{ :<C-U>normal! f{vi{<cr>
+vnoremap <silent> an{ :<C-U>normal! f{va{<cr>
+onoremap <silent> an{ :<C-U>normal! f{va{<cr>
+
+vnoremap <silent> ilB :<C-U>normal! F}viB<cr>
+onoremap <silent> ilB :<C-U>normal! F}viB<cr>
+vnoremap <silent> alB :<C-U>normal! F}vaB<cr>
+onoremap <silent> alB :<C-U>normal! F}vaB<cr>
+vnoremap <silent> il{ :<C-U>normal! F}vi{<cr>
+onoremap <silent> il{ :<C-U>normal! F}vi{<cr>
+vnoremap <silent> al{ :<C-U>normal! F}va{<cr>
+onoremap <silent> al{ :<C-U>normal! F}va{<cr>
+" }}}
+" Next/Last [] {{{
+vnoremap <silent> ind :<C-U>normal! f[vi[<cr>
+onoremap <silent> ind :<C-U>normal! f[vi[<cr>
+vnoremap <silent> and :<C-U>normal! f[va[<cr>
+onoremap <silent> and :<C-U>normal! f[va[<cr>
+vnoremap <silent> in[ :<C-U>normal! f[vi[<cr>
+onoremap <silent> in[ :<C-U>normal! f[vi[<cr>
+vnoremap <silent> an[ :<C-U>normal! f[va[<cr>
+onoremap <silent> an[ :<C-U>normal! f[va[<cr>
+
+vnoremap <silent> ild :<C-U>normal! F]vi[<cr>
+onoremap <silent> ild :<C-U>normal! F]vi[<cr>
+vnoremap <silent> ald :<C-U>normal! F]va[<cr>
+onoremap <silent> ald :<C-U>normal! F]va[<cr>
+vnoremap <silent> il[ :<C-U>normal! F]vi[<cr>
+onoremap <silent> il[ :<C-U>normal! F]vi[<cr>
+vnoremap <silent> al[ :<C-U>normal! F]va[<cr>
+onoremap <silent> al[ :<C-U>normal! F]va[<cr>
+" }}}
+" Next/Last <> {{{
+vnoremap <silent> in< :<C-U>normal! f<vi<<cr>
+onoremap <silent> in< :<C-U>normal! f<vi<<cr>
+vnoremap <silent> an< :<C-U>normal! f<va<<cr>
+onoremap <silent> an< :<C-U>normal! f<va<<cr>
+
+vnoremap <silent> il< :<C-U>normal! f>vi<<cr>
+onoremap <silent> il< :<C-U>normal! f>vi<<cr>
+vnoremap <silent> al< :<C-U>normal! f>va<<cr>
+onoremap <silent> al< :<C-U>normal! f>va<<cr>
+" }}}
+" Next '' {{{
+vnoremap <silent> in' :<C-U>normal! f'vi'<cr>
+onoremap <silent> in' :<C-U>normal! f'vi'<cr>
+vnoremap <silent> an' :<C-U>normal! f'va'<cr>
+onoremap <silent> an' :<C-U>normal! f'va'<cr>
+
+vnoremap <silent> il' :<C-U>normal! F'vi'<cr>
+onoremap <silent> il' :<C-U>normal! F'vi'<cr>
+vnoremap <silent> al' :<C-U>normal! F'va'<cr>
+onoremap <silent> al' :<C-U>normal! F'va'<cr>
+" }}}
+" Next "" {{{
+vnoremap <silent> in" :<C-U>normal! f"vi"<cr>
+onoremap <silent> in" :<C-U>normal! f"vi"<cr>
+vnoremap <silent> an" :<C-U>normal! f"va"<cr>
+onoremap <silent> an" :<C-U>normal! f"va"<cr>
+
+vnoremap <silent> il" :<C-U>normal! F"vi"<cr>
+onoremap <silent> il" :<C-U>normal! F"vi"<cr>
+vnoremap <silent> al" :<C-U>normal! F"va"<cr>
+onoremap <silent> al" :<C-U>normal! F"va"<cr>
+" }}}
+
+" }}}
+" Quickreturn ----------------------------------------------------------------- {{{
+
+inoremap <c-cr> <esc>A<cr>
+inoremap <s-cr> <esc>A:<cr>
+
+" }}}
+" Error toggles --------------------------------------------------------------- {{{
+
+command! ErrorsToggle call ErrorsToggle()
+function! ErrorsToggle() " {{{
+  if exists("w:is_error_window")
+    unlet w:is_error_window
+    exec "q"
+  else
+    exec "Errors"
+    lopen
+    let w:is_error_window = 1
+  endif
+endfunction " }}}
+
+command! -bang -nargs=? QFixToggle call QFixToggle(<bang>0)
+function! QFixToggle(forced) " {{{
+  if exists("g:qfix_win") && a:forced == 0
+    cclose
+    unlet g:qfix_win
+  else
+    copen 10
+    let g:qfix_win = bufnr("$")
+  endif
+endfunction " }}}
+
+nmap <silent> <f3> :ErrorsToggle<cr>
+nmap <silent> <f4> :QFixToggle<cr>
+
+" }}}
+" Persistent echo ------------------------------------------------------------- {{{
+
+" http://vim.wikia.com/wiki/Make_echo_seen_when_it_would_otherwise_disappear_and_go_unseen
+"
+" further improvement in restoration of the &updatetime. To make this
+" usable in the plugins, we want it to be safe for the case when
+" two plugins use same this same technique. Two independent
+" restorations of &ut can run in unpredictable sequence. In order to
+" make it safe, we add additional check in &ut restoration.
+let s:Pecho=''
+fu! s:Pecho(msg)
+  let s:hold_ut=&ut | if &ut>1|let &ut=1|en
+  let s:Pecho=a:msg
+  aug Pecho
+    au CursorHold * if s:Pecho!=''|echo s:Pecho
+          \|let s:Pecho=''|if s:hold_ut > &ut |let &ut=s:hold_ut|en|en
+          \|aug Pecho|exe 'au!'|aug END|aug! Pecho
+  aug END
+endf
+
+" }}}
+" Open quoted ----------------------------------------------------------------- {{{
+
+nnoremap <silent> ø :OpenQuoted<cr>
+command! OpenQuoted call OpenQuoted()
+
+" Open the file in the current (or next) set of quotes.
+function! OpenQuoted() " {{{
+    let @r = ''
+
+    exe 'normal! vi' . "'" . '"ry'
+
+    if len(@r) == 0
+        exe 'normal! i' . '"' . '"ry'
+    endif
+
+    if len(@r) == 0
+        exe 'normal! "ry'
+        let @r = ''
+    endif
+
+    exe "silent !open ." . @r
+endfunction " }}}
+
+" }}}
+" MacVim ---------------------------------------------------------------------- {{{
+
+if has('gui_running')
+    set guifont=Menlo:h12
+
+    " Remove all the UI cruft
+    set go-=T
+    set go-=l
+    set go-=L
+    set go-=r
+    set go-=R
+
+    " PeepOpen
+    if has("gui_macvim")
+        macmenu &File.New\ Tab key=<nop>
+        map <leader><leader> <Plug>PeepOpen
+    end
+
+    highlight SpellBad term=underline gui=undercurl guisp=Orange
+
+    " Use a line-drawing char for pretty vertical splits.
+    set fillchars=vert:│
+
+    " Different cursors for different modes.
+    set guicursor=n-c:block-Cursor-blinkon0
+    set guicursor+=v:block-vCursor-blinkon0
+    set guicursor+=i-ci:ver20-iCursor
+
+    " Use the normal HIG movements, except for M-Up/Down
+    let macvim_skip_cmd_opt_movement = 1
+    no   <D-Left>       <Home>
+    no!  <D-Left>       <Home>
+    no   <M-Left>       <C-Left>
+    no!  <M-Left>       <C-Left>
+
+    no   <D-Right>      <End>
+    no!  <D-Right>      <End>
+    no   <M-Right>      <C-Right>
+    no!  <M-Right>      <C-Right>
+
+    no   <D-Up>         <C-Home>
+    ino  <D-Up>         <C-Home>
+    imap <M-Up>         <C-o>{
+
+    no   <D-Down>       <C-End>
+    ino  <D-Down>       <C-End>
+    imap <M-Down>       <C-o>}
+
+    imap <M-BS>         <C-w>
+    inoremap <D-BS>     <esc>my0c`y
+endif
+
+" }}}
