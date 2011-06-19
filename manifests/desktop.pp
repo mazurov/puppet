@@ -2,7 +2,8 @@ $user = "amazurov"
 $home_folder="/home/${user}"
 $local_files="${home_folder}/UbuntuOne/System/Puppet/files"
 
-define apt::key($ensure, $apt_key_url = "http://www.example.com/apt/keys", $uid = "") {
+define apt::key($ensure, $apt_key_url = "http://www.example.com/apt/keys", 
+  $uid = "") {
   case $ensure {
     "present": {
       exec { "apt-key present $name":
@@ -22,7 +23,8 @@ define apt::key($ensure, $apt_key_url = "http://www.example.com/apt/keys", $uid 
   }
 }
 
-define apt::key_from_server($ensure, $apt_key_url = "keyserver.ubuntu.com", $uid = "") {
+define apt::key_from_server($ensure, $apt_key_url = "keyserver.ubuntu.com", 
+  $uid = "") {
   case $ensure {
     "present": {
       exec { "apt-key present $name":
@@ -61,7 +63,7 @@ file { "${home_folder}/.vim":
   owner => "${user}",
   group => "${user}",
   recurse => true,
-  ignore => '.git',
+  ignore => ['.git','tests'],
   mode => 0640,
   source => "file://${local_files}/dotfiles/vim",
 }

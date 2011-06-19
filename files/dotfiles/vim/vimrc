@@ -38,6 +38,8 @@ set undoreload=10000
 set cpoptions+=J
 set list
 set listchars=tab:▸\ ,eol:¬
+" hi NonText ctermfg=4 guifg=#333333 guibg=bg
+" hi SpecialKey ctermfg=4 guifg=#333333 guibg=bg
 set shell=/bin/bash
 set lazyredraw
 set wildignore+=*.pyc,.hg,.git
@@ -88,7 +90,6 @@ let maplocalleader = "\\"
 syntax on
 set background=dark
 colorscheme molokai
-
 " }}}
 
 " }}}
@@ -971,8 +972,4 @@ imap <F10> <esc>:bd<cr>
 " Make command ------------------------------------------------------------- {{{
 nmap <unique> <F9> :make<CR>
 " }}}
-" Full screen -------------------------------------------------------------- {{{
-if has("gui_running")
-  set lines=999 columns=999
-endif
-"}}}
+
