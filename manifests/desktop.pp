@@ -1,8 +1,10 @@
-$local_files="/home/amazurov/UbuntuOne/System/Puppet/files"
+$user = "amazurov"
+$home_folder="/home/${user}"
+$local_files="${home_folder}/UbuntuOne/System/Puppet/files"
 
 define apt::key($ensure, $apt_key_url = "http://www.example.com/apt/keys", $uid = "") {
-        case $ensure {
-                "present": {
+	case $ensure {
+	   	"present": {
                         exec { "apt-key present $name":
                                 command => "/usr/bin/wget -q $apt_key_url -O -|/usr/bin/apt-key add -",
                                 unless => "/usr/bin/apt-key list|/bin/grep -c $uid",
@@ -48,11 +50,34 @@ file { "/etc/apt/sources.list":
         content => template("etc_apt_sources.list.erb"),
 }
 
-file { "/home/amazurov/.bashrc":
-        owner => "amazurov",
-        group => "amazurov",
-        mode => 0660,
+file { "${home_folder}/.bashrc":
+        owner => "${user}",
+        group => "${user}",
+        mode => 0640,
         source => "file://${local_files}/dotfiles/bashrc"
+}
+
+file { "${home_folder}/.vim":
+        	owner => "${user}",
+        	group => "${user}",
+  		recurse => true,
+		ignore => '.git',
+        	mode => 0640,
+        	source => "file://${local_files}/dotfiles/vim",
+}
+
+file {["${home_folder}/.vim/tmp", "${home_folder}/.vim/tmp/backup", "${home_folder}/.vim/tmp/undo", "${home_folder}/.vim/tmp/swap"]:
+	owner => "${user}",
+        group => "${user}",
+	ensure=> "directory",
+	recurse => true,
+	require => File["${home_folder}/.vim"]
+}
+
+file {"${home_folder}/.vimrc":
+		ensure => "link",
+		target => ".vim/vimrc",
+		require => File["${home_folder}/.vim"]
 }
 
 
@@ -87,7 +112,7 @@ exec{"/usr/bin/apt-get update":
         require => [File["/etc/apt/sources.list"], Exec["apt-key present google"], Exec["apt-key present virtualbox"], Exec["apt-key present dropbox"], Exec["apt-key present guido-iodice"]]
 }
 
-package { ["skype","google-chrome-beta", "flashplugin-installer", "git", "subversion", "mc", "vim", "rubygems1.8","virtualbox-4.0", "libboost1.46-all-dev", "keepassx", "nautilus-dropbox"]:
+package { ["skype","google-chrome-unstable", "flashplugin-installer", "git", "subversion", "mc", "vim-gnome", "vim-scripts", "vim-puppet", "rubygems1.8", "rake", "virtualbox-4.0", "libboost1.46-all-dev", "keepassx", "nautilus-dropbox"]:
 	ensure => installed
 }
 

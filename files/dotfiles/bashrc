@@ -107,3 +107,4 @@ fi
 
 . $HOME/Projects/Programs/z/z.sh
 . /usr/share/mc/bin/mc.sh
+export PATH=$HOME/Projects/Programs/ninja:$HOME/Projects/Programs/gyp:$PATH

@@ -54,12 +54,12 @@ au VimResized * exe "normal! \<c-w>="
 
 " Tabs, spaces, wrapping {{{
 
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
 set expandtab
 set wrap
-set textwidth=85
+set textwidth=80
 set formatoptions=qrn1
 set colorcolumn=+1
 
@@ -222,9 +222,9 @@ set foldtext=MyFoldText()
 " Destroy infuriating keys ---------------------------------------------------- {{{
 
 " Fuck you, help key.
-set fuoptions=maxvert,maxhorz
-noremap <F1> :set invfullscreen<CR>
-inoremap <F1> <ESC>:set invfullscreen<CR>a
+"  set fuoptions=maxvert,maxhorz
+"  noremap <F1> :set invfullscreen<CR>
+" inoremap <F1> <ESC>:set invfullscreen<CR>a
 
 " Fuck you too, manual key.
 nnoremap K <nop>
@@ -535,7 +535,7 @@ let ropevim_enable_shortcuts = 0
 let ropevim_guess_project = 1
 let ropevim_global_prefix = '<C-c>p'
 
-source $HOME/.vim/sadness/sadness.vim
+" source $HOME/.vim/sadness/sadness.vim
 
 " }}}
 " Gundo {{{
@@ -880,7 +880,7 @@ endfunction " }}}
 " MacVim ---------------------------------------------------------------------- {{{
 
 if has('gui_running')
-    set guifont=Menlo:h12
+    set guifont=Meslo\ LG\ S\ DZ\ 12
 
     " Remove all the UI cruft
     set go-=T
@@ -901,9 +901,17 @@ if has('gui_running')
     set fillchars=vert:│
 
     " Different cursors for different modes.
-    set guicursor=n-c:block-Cursor-blinkon0
-    set guicursor+=v:block-vCursor-blinkon0
-    set guicursor+=i-ci:ver20-iCursor
+    highlight iCursor guifg=white guibg=steelblue
+    " set guicursor=n-c:block-Cursor-blinkon0
+    " set guicursor+=v:block-vCursor-blinkon0
+    " set guicursor+=i-ci:ver20-iCursor
+
+    " highlight Cursor guifg=white guibg=black
+
+    " set guicursor=n-v-c:block-Cursor
+    " set guicursor+=i:ver100-iCursor
+    " set guicursor+=n-v-c:blinkon0
+    " set guicursor+=i:blinkwait10
 
     " Use the normal HIG movements, except for M-Up/Down
     let macvim_skip_cmd_opt_movement = 1
@@ -930,3 +938,32 @@ if has('gui_running')
 endif
 
 " }}}
+"
+" Swith off menu {{{
+set guioptions-=T
+set guioptions-=m
+" }}}
+" Buffers ------------------------------------------------------------------ {{{
+" F5 - view list of buffers
+nmap <F5> <Esc>:BufExplorer<cr>
+vmap <F5> <esc>:BufExplorer<cr>
+imap <F5> <esc><esc>:BufExplorer<cr>
+
+" F6 - previous buffer
+map <F6> :bp<cr>
+vmap <F6> <esc>:bp<cr>i
+imap <F6> <esc>:bp<cr>i
+
+" F7 - next buffer
+map <F7> :bn<cr>
+vmap <F7> <esc>:bn<cr>i
+imap <F7> <esc>:bn<cr>i
+
+" F10 - delete buffer
+map <F10> :bd<cr>
+vmap <F10> <esc>:bd<cr>
+imap <F10> <esc>:bd<cr>
+"}}}
+" Make command ------------------------------------------------------------- {{{
+nmap <unique> <F9> :make<CR>
+ 
