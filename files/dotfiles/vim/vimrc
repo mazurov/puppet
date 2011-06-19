@@ -513,6 +513,14 @@ nnoremap <D-p> "_ddPV`]
 map <leader>a :Ack! 
 
 " }}}
+
+" BufExplorer ----------------------------------------------------------------- {{{
+" F5 - view list of buffers
+nmap <F5> <Esc>:BufExplorer<cr>
+vmap <F5> <esc>:BufExplorer<cr>
+imap <F5> <esc><esc>:BufExplorer<cr>
+" }}}
+
 " NERD Tree {{{
 
 noremap <F2> :NERDTreeToggle<cr>
@@ -944,11 +952,6 @@ set guioptions-=T
 set guioptions-=m
 " }}}
 " Buffers ------------------------------------------------------------------ {{{
-" F5 - view list of buffers
-nmap <F5> <Esc>:BufExplorer<cr>
-vmap <F5> <esc>:BufExplorer<cr>
-imap <F5> <esc><esc>:BufExplorer<cr>
-
 " F6 - previous buffer
 map <F6> :bp<cr>
 vmap <F6> <esc>:bp<cr>i
@@ -964,6 +967,12 @@ map <F10> :bd<cr>
 vmap <F10> <esc>:bd<cr>
 imap <F10> <esc>:bd<cr>
 "}}}
+
 " Make command ------------------------------------------------------------- {{{
 nmap <unique> <F9> :make<CR>
- 
+" }}}
+" Full screen -------------------------------------------------------------- {{{
+if has("gui_running")
+  set lines=999 columns=999
+endif
+"}}}

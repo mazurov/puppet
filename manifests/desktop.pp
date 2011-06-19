@@ -3,123 +3,123 @@ $home_folder="/home/${user}"
 $local_files="${home_folder}/UbuntuOne/System/Puppet/files"
 
 define apt::key($ensure, $apt_key_url = "http://www.example.com/apt/keys", $uid = "") {
-	case $ensure {
-	   	"present": {
-                        exec { "apt-key present $name":
-                                command => "/usr/bin/wget -q $apt_key_url -O -|/usr/bin/apt-key add -",
-                                unless => "/usr/bin/apt-key list|/bin/grep -c $uid",
-                        }
-                }
-                "absent": {
-                        exec { "apt-key absent $name":
-                                command => "/usr/bin/apt-key del $uid",
-                                onlyif => "/usr/bin/apt-key list|/bin/grep -c $uid",
-                        }
-                }
-                default: {
-                        fail "Invalid 'ensure' value '$ensure' for apt::key"
-                }
-        }
+  case $ensure {
+    "present": {
+      exec { "apt-key present $name":
+        command => "/usr/bin/wget -q $apt_key_url -O -|/usr/bin/apt-key add -",
+        unless => "/usr/bin/apt-key list|/bin/grep -c $uid",
+      }
+    }
+    "absent": {
+      exec { "apt-key absent $name":
+        command => "/usr/bin/apt-key del $uid",
+        onlyif => "/usr/bin/apt-key list|/bin/grep -c $uid",
+      }
+    }
+    default: {
+      fail "Invalid 'ensure' value '$ensure' for apt::key"
+    }
+  }
 }
 
 define apt::key_from_server($ensure, $apt_key_url = "keyserver.ubuntu.com", $uid = "") {
-        case $ensure {
-                "present": {
-                        exec { "apt-key present $name":
-                                command => "/usr/bin/apt-key adv --keyserver $apt_key_url --recv-keys $uid",
-                                unless => "/usr/bin/apt-key list|/bin/grep -c $uid",
-                        }
-                }
-                "absent": {
-                        exec { "apt-key absent $name":
-                                command => "/usr/bin/apt-key del $uid",
-                                onlyif => "/usr/bin/apt-key list|/bin/grep -c $uid",
-                        }
-                }
-                default: {
-                        fail "Invalid 'ensure' value '$ensure' for apt::key_from_server"
-                }
-        }
+  case $ensure {
+    "present": {
+      exec { "apt-key present $name":
+        command => "/usr/bin/apt-key adv --keyserver $apt_key_url --recv-keys $uid",
+        unless => "/usr/bin/apt-key list|/bin/grep -c $uid",
+      }
+    }
+    "absent": {
+      exec { "apt-key absent $name":
+        command => "/usr/bin/apt-key del $uid",
+        onlyif => "/usr/bin/apt-key list|/bin/grep -c $uid",
+      }
+    }
+    default: {
+      fail "Invalid 'ensure' value '$ensure' for apt::key_from_server"
+    }
+  }
 }
 
 
 file { "/etc/apt/sources.list":
-        owner => "root",
-        group => "root",
-        mode => 0444,
-        content => template("etc_apt_sources.list.erb"),
+  owner => "root",
+  group => "root",
+  mode => 0444,
+  content => template("etc_apt_sources.list.erb"),
 }
 
 file { "${home_folder}/.bashrc":
-        owner => "${user}",
-        group => "${user}",
-        mode => 0640,
-        source => "file://${local_files}/dotfiles/bashrc"
+  owner => "${user}",
+  group => "${user}",
+  mode => 0640,
+  source => "file://${local_files}/dotfiles/bashrc"
 }
 
 file { "${home_folder}/.vim":
-        	owner => "${user}",
-        	group => "${user}",
-  		recurse => true,
-		ignore => '.git',
-        	mode => 0640,
-        	source => "file://${local_files}/dotfiles/vim",
+  owner => "${user}",
+  group => "${user}",
+  recurse => true,
+  ignore => '.git',
+  mode => 0640,
+  source => "file://${local_files}/dotfiles/vim",
 }
 
 file {["${home_folder}/.vim/tmp", "${home_folder}/.vim/tmp/backup", "${home_folder}/.vim/tmp/undo", "${home_folder}/.vim/tmp/swap"]:
-	owner => "${user}",
-        group => "${user}",
-	ensure=> "directory",
-	recurse => true,
-	require => File["${home_folder}/.vim"]
+  owner => "${user}",
+  group => "${user}",
+  ensure=> "directory",
+  recurse => true,
+  require => File["${home_folder}/.vim"]
 }
 
 file {"${home_folder}/.vimrc":
-		ensure => "link",
-		target => ".vim/vimrc",
-		require => File["${home_folder}/.vim"]
+  ensure => "link",
+  target => ".vim/vimrc",
+  require => File["${home_folder}/.vim"]
 }
 
 
 apt::key {"google":
-	ensure => "present",
-	apt_key_url => "https://dl-ssl.google.com/linux/linux_signing_key.pub",
-	uid =>  "7FAC5991"
+  ensure => "present",
+  apt_key_url => "https://dl-ssl.google.com/linux/linux_signing_key.pub",
+  uid =>  "7FAC5991"
 }
 
 apt::key {"virtualbox":
-	ensure => "present",
-	apt_key_url => "http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc",
-	uid =>  "98AB5139"
+  ensure => "present",
+  apt_key_url => "http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc",
+  uid =>  "98AB5139"
 }
 
 apt::key_from_server{"guido-iodice":
-	ensure => "present",
-	uid =>  "666270B8"
+  ensure => "present",
+  uid =>  "666270B8"
 }
 
 apt::key_from_server{"dropbox":
-	ensure => "present",
-	apt_key_url => "pgp.mit.edu",
-	uid =>  "5044912E"
+  ensure => "present",
+  apt_key_url => "pgp.mit.edu",
+  uid =>  "5044912E"
 }
 
 
 
 exec{"/usr/bin/apt-get update":
-	refreshonly => true,
-        subscribe => File["/etc/apt/sources.list"],
-        require => [File["/etc/apt/sources.list"], Exec["apt-key present google"], Exec["apt-key present virtualbox"], Exec["apt-key present dropbox"], Exec["apt-key present guido-iodice"]]
+  refreshonly => true,
+  subscribe => File["/etc/apt/sources.list"],
+  require => [File["/etc/apt/sources.list"], Exec["apt-key present google"], Exec["apt-key present virtualbox"], Exec["apt-key present dropbox"], Exec["apt-key present guido-iodice"]]
 }
 
 package { ["skype","google-chrome-unstable", "flashplugin-installer", "git", "subversion", "mc", "vim-gnome", "vim-scripts", "vim-puppet", "rubygems1.8", "rake", "virtualbox-4.0", "libboost1.46-all-dev", "keepassx", "nautilus-dropbox"]:
-	ensure => installed
+  ensure => installed
 }
 
 package { ["vagrant"]:
-	ensure => "installed",
-	provider => "gem",
-	require => Package["rubygems1.8"]
+  ensure => "installed",
+  provider => "gem",
+  require => Package["rubygems1.8"]
 }
 
 
