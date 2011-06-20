@@ -714,6 +714,7 @@ nmap <M-S> :call SynStack()<CR>
 " }}}
 " Snippets ---------------------------------------------------------------- {{{
 let g:snippets_dir=$HOME . "/.vim/snippets"
+let g:snips_author="alexander.mazurov@gmail.com"
 " }}}
 " Text objects ---------------------------------------------------------------- {{{
 
