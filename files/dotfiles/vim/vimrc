@@ -67,8 +67,9 @@ set colorcolumn=+1
 
 " }}}
 " Status line {{{
-
-set statusline=%F%m%r%h%w%=(%{&ff}/%Y)\ (line\ %l\/%L,\ col\ %c)
+set statusline=[%n]\ %<%.99f\ %h%w%m%r%y
+set statusline+=%{exists('g:loaded_fugitive')?fugitive#statusline():''}
+set statusline+=%=%-16(\ %l,%c-%v\ %)%P
 
 " }}}
 " Backups {{{

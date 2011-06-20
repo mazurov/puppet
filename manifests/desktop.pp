@@ -28,7 +28,8 @@ define apt::key_from_server($ensure, $apt_key_url = "keyserver.ubuntu.com",
   case $ensure {
     "present": {
       exec { "apt-key present $name":
-        command => "/usr/bin/apt-key adv --keyserver $apt_key_url --recv-keys $uid",
+        command => 
+          "/usr/bin/apt-key adv --keyserver $apt_key_url --recv-keys $uid",
         unless => "/usr/bin/apt-key list|/bin/grep -c $uid",
       }
     }
@@ -66,7 +67,6 @@ file { "${home_folder}/.bash_aliases":
   source => "file://${local_files}/dotfiles/bash_aliases"
 }
 
-
 file { "${home_folder}/.vim":
   owner => "${user}",
   group => "${user}",
@@ -76,7 +76,8 @@ file { "${home_folder}/.vim":
   source => "file://${local_files}/dotfiles/vim",
 }
 
-file {["${home_folder}/.vim/tmp", "${home_folder}/.vim/tmp/backup", "${home_folder}/.vim/tmp/undo", "${home_folder}/.vim/tmp/swap"]:
+file {["${home_folder}/.vim/tmp", "${home_folder}/.vim/tmp/backup", 
+  "${home_folder}/.vim/tmp/undo", "${home_folder}/.vim/tmp/swap"]:
   owner => "${user}",
   group => "${user}",
   ensure=> "directory",
@@ -99,7 +100,8 @@ apt::key {"google":
 
 apt::key {"virtualbox":
   ensure => "present",
-  apt_key_url => "http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc",
+  apt_key_url => 
+    "http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc",
   uid =>  "98AB5139"
 }
 
@@ -119,7 +121,13 @@ apt::key_from_server{"dropbox":
 exec{"/usr/bin/apt-get update":
   refreshonly => true,
   subscribe => File["/etc/apt/sources.list"],
-  require => [File["/etc/apt/sources.list"], Exec["apt-key present google"], Exec["apt-key present virtualbox"], Exec["apt-key present dropbox"], Exec["apt-key present guido-iodice"]]
+  require => [
+    File["/etc/apt/sources.list"],
+    Exec["apt-key present google"],
+    Exec["apt-key present virtualbox"],
+    Exec["apt-key present dropbox"], 
+    Exec["apt-key present guido-iodice"]
+  ]
 }
 
 package { ["skype","google-chrome-beta", "flashplugin-installer", "git", 
