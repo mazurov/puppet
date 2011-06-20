@@ -28,9 +28,6 @@
 [submodule "files/dotfiles/vim/bundle/bufexplorer"]
 	path = files/dotfiles/vim/bundle/bufexplorer
 	url = https://github.com/slack/vim-bufexplorer.git
-[submodule "files/dotfiles/vim/bundle/molokai"]
-	path = files/dotfiles/vim/bundle/molokai
-	url = https://github.com/vim-scripts/molokai.git
 [submodule "files/dotfiles/vim/bundle/puppet"]
 	path = files/dotfiles/vim/bundle/puppet
 	url = git://github.com/rodjek/vim-puppet.git

@@ -133,7 +133,8 @@ exec{"/usr/bin/apt-get update":
 package { ["skype","google-chrome-beta", "flashplugin-installer", "git", 
 "subversion", "mc", "vim-gnome", "vim-scripts", "vim-puppet", "ack", 
 "ack-grep", "rubygems1.8","rake", "libhtmlentities-ruby", "virtualbox-4.0", 
-"libboost1.46-all-dev", "keepassx", "nautilus-dropbox", "libunwind7-dev"]:
+"libboost1.46-all-dev", "keepassx", "nautilus-dropbox", "libunwind7-dev",
+"erlang-dev", "libpam0g-dev"]:
   ensure => installed
 }
 

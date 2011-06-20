@@ -38,8 +38,6 @@ set undoreload=10000
 set cpoptions+=J
 set list
 set listchars=tab:▸\ ,eol:¬
-" hi NonText ctermfg=4 guifg=#333333 guibg=bg
-" hi SpecialKey ctermfg=4 guifg=#333333 guibg=bg
 set shell=/bin/bash
 set lazyredraw
 set wildignore+=*.pyc,.hg,.git
@@ -91,8 +89,9 @@ let maplocalleader = "\\"
 syntax on
 set background=dark
 colorscheme molokai
+hi NonText ctermfg=4 guifg=#333333 guibg=bg
+hi SpecialKey ctermfg=4 guifg=#333333 guibg=bg
 " }}}
-
 " }}}
 " Useful abbreviations -------------------------------------------------------- {{{
 
