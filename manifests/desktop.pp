@@ -59,6 +59,14 @@ file { "${home_folder}/.bashrc":
   source => "file://${local_files}/dotfiles/bashrc"
 }
 
+file { "${home_folder}/.bash_aliases":
+  owner => "${user}",
+  group => "${user}",
+  mode => 0640,
+  source => "file://${local_files}/dotfiles/bash_aliases"
+}
+
+
 file { "${home_folder}/.vim":
   owner => "${user}",
   group => "${user}",
@@ -114,7 +122,10 @@ exec{"/usr/bin/apt-get update":
   require => [File["/etc/apt/sources.list"], Exec["apt-key present google"], Exec["apt-key present virtualbox"], Exec["apt-key present dropbox"], Exec["apt-key present guido-iodice"]]
 }
 
-package { ["skype","google-chrome-unstable", "flashplugin-installer", "git", "subversion", "mc", "vim-gnome", "vim-scripts", "vim-puppet", "rubygems1.8", "rake", "virtualbox-4.0", "libboost1.46-all-dev", "keepassx", "nautilus-dropbox"]:
+package { ["skype","google-chrome-beta", "flashplugin-installer", "git", 
+"subversion", "mc", "vim-gnome", "vim-scripts", "vim-puppet", "ack", 
+"ack-grep", "rubygems1.8","rake", "libhtmlentities-ruby", "virtualbox-4.0", 
+"libboost1.46-all-dev", "keepassx", "nautilus-dropbox"]:
   ensure => installed
 }
 

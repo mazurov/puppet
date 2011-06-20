@@ -29,8 +29,8 @@ set cursorline
 set ttyfast
 set ruler
 set backspace=indent,eol,start
-set nonumber
-set norelativenumber
+set number
+set relativenumber
 set laststatus=2
 set history=1000
 set undofile
@@ -104,7 +104,7 @@ iabbrev am@ alexander.mazurov@gmail.com
 " Searching and movement ------------------------------------------------------ {{{
 
 " Use sane regexes.
-nnoremap / /\v
+nnoremap / /\v 
 vnoremap / /\v
 
 set ignorecase
@@ -226,6 +226,10 @@ set foldtext=MyFoldText()
 "  set fuoptions=maxvert,maxhorz
 "  noremap <F1> :set invfullscreen<CR>
 " inoremap <F1> <ESC>:set invfullscreen<CR>a
+inoremap <F1> <ESC>
+nnoremap <F1> <ESC>
+vnoremap <F1> <ESC>
+
 
 " Fuck you too, manual key.
 nnoremap K <nop>
@@ -443,7 +447,8 @@ au FileType help setlocal textwidth=78
 " }}}
 " Quick editing --------------------------------------------------------------- {{{
 
-nnoremap <leader>ev <C-w>s<C-w>j<C-w>L:e $MYVIMRC<cr>
+nnoremap <leader>ev <C-w>s<C-w>j<C-w>L:e ~/UbuntuOne/System/Puppet/files/dotfiles/vim/vimrc<cr>
+nnoremap <leader>ep <C-w>s<C-w>j<C-w>L:e ~/UbuntuOne/System/Puppet/manifests/desktop.pp<cr>
 nnoremap <leader>es <C-w>s<C-w>j<C-w>L:e ~/.vim/snippets/<cr>
 nnoremap <leader>eo <C-w>s<C-w>j<C-w>L:e ~/Dropbox/Org<cr>4j
 
@@ -511,6 +516,8 @@ nnoremap <D-p> "_ddPV`]
 
 " Ack {{{
 
+
+let g:ackprg="ack-grep -H --nocolor --nogroup --column"
 map <leader>a :Ack! 
 
 " }}}
@@ -523,7 +530,7 @@ imap <F5> <esc><esc>:BufExplorer<cr>
 " }}}
 
 " NERD Tree {{{
-
+let g:NERDTreeShowBookmarks=1
 noremap <F2> :NERDTreeToggle<cr>
 inoremap <F2> <esc>:NERDTreeToggle<cr>
 let NERDTreeIgnore=['.vim$', '\~$', '.*\.pyc$', 'pip-log\.txt$', 'whoosh_index', 'xapian_index', '.*.pid', 'monitor.py', '.*-fixtures-.*.json', '.*\.o$']
@@ -703,6 +710,9 @@ endfunc " }}}
 
 nmap <M-S> :call SynStack()<CR>
 
+" }}}
+" Snippets ---------------------------------------------------------------- {{{
+let g:snippets_dir=$HOME . "/.vim/snippets"
 " }}}
 " Text objects ---------------------------------------------------------------- {{{
 
