@@ -40,3 +40,6 @@
 [submodule "files/dotfiles/vim/bundle/molokai"]
 	path = files/dotfiles/vim/bundle/molokai
 	url = git@github.com:mazurov/molokai.git
+[submodule "files/dotfiles/vim/bundle/taglist-plus"]
+	path = files/dotfiles/vim/bundle/taglist-plus
+	url = https://github.com/vim-scripts/taglist-plus.git

@@ -715,6 +715,11 @@ nmap <M-S> :call SynStack()<CR>
 let g:snippets_dir=$HOME . "/.vim/snippets"
 let g:snips_author="alexander.mazurov@gmail.com"
 " }}}
+" Tag list ----------------------------------------------------------------- {{{
+map <F1> :TlistToggle<cr>
+vmap <F1> <esc>:TlistToggle<cr>
+imap <F1> <esc>:TlistToggle<cr>
+" }}}
 " Text objects ---------------------------------------------------------------- {{{
 
 " Shortcut for [] {{{

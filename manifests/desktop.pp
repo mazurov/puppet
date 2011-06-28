@@ -91,6 +91,13 @@ file {"${home_folder}/.vimrc":
   require => File["${home_folder}/.vim"]
 }
 
+file {"${home_folder}/.gitconfig":
+  owner => "${user}",
+  group => "${user}",
+  source => "file://${local_files}/dotfiles/gitconfig"
+}
+
+
 
 apt::key {"google":
   ensure => "present",
@@ -110,6 +117,11 @@ apt::key_from_server{"guido-iodice":
   uid =>  "666270B8"
 }
 
+apt::key_from_server{"mongodb":
+  ensure => "present",
+  uid =>  "7F0CEB10"
+}
+
 apt::key_from_server{"dropbox":
   ensure => "present",
   apt_key_url => "pgp.mit.edu",
@@ -126,7 +138,8 @@ exec{"/usr/bin/apt-get update":
     Exec["apt-key present google"],
     Exec["apt-key present virtualbox"],
     Exec["apt-key present dropbox"], 
-    Exec["apt-key present guido-iodice"]
+    Exec["apt-key present guido-iodice"],
+    Exec["apt-key present mongodb"]
   ]
 }
 
@@ -134,8 +147,11 @@ package { ["skype","google-chrome-beta", "flashplugin-installer", "git",
 "subversion", "mc", "vim-gnome", "vim-scripts", "vim-puppet", "ack", 
 "ack-grep", "rubygems1.8","rake", "libhtmlentities-ruby", "virtualbox-4.0", 
 "libboost1.46-all-dev", "keepassx", "nautilus-dropbox", "libunwind7-dev",
-"erlang-dev", "libpam0g-dev"]:
-  ensure => installed
+"erlang-dev", "libpam0g-dev", "valgrind", "cmake", "cmake-curses-gui", 
+"doxygen", "mongodb-10gen", "graphviz", "exuberant-ctags", "gedit-latex-plugin",
+"gedit-plugins","texlive-full", "bpython"]:
+  ensure => installed,
+  require => Exec["/usr/bin/apt-get update"]
 }
 
 package { ["vagrant"]:
