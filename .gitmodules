@@ -43,3 +43,6 @@
 [submodule "files/dotfiles/vim/bundle/taglist-plus"]
 	path = files/dotfiles/vim/bundle/taglist-plus
 	url = https://github.com/vim-scripts/taglist-plus.git
+[submodule "files/dotfiles/vim/bundle/threesome"]
+	path = files/dotfiles/vim/bundle/threesome
+	url = https://github.com/sjl/threesome.vim.git

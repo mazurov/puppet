@@ -107,4 +107,10 @@ fi
 
 . $HOME/Projects/Programs/z/z.sh
 . /usr/share/mc/bin/mc.sh
-export PATH=$HOME/Projects/Programs/ninja:$HOME/Projects/Programs/gyp:$PATH
+
+PROGRAMS_ROOT=$HOME/Projects/Programs
+NINJA_BIN=$PROGRAMS_ROOT/ninja
+GYP_BIN=$PROGRAMS_ROOT/gyp
+DEPOT_BIN=$PROGRAMS_ROOT/depot_tools
+GITPAID=$PROGRAMS_ROOT/gitpaid/bin
+export PATH=$NINJA_BIN:$GYP_BIN:$DEPOT_BIN:$GITPAID:$PATH

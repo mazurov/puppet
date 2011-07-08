@@ -149,7 +149,8 @@ package { ["skype","google-chrome-beta", "flashplugin-installer", "git",
 "libboost1.46-all-dev", "keepassx", "nautilus-dropbox", "libunwind7-dev",
 "erlang-dev", "libpam0g-dev", "valgrind", "cmake", "cmake-curses-gui", 
 "doxygen", "mongodb-10gen", "graphviz", "exuberant-ctags", "gedit-latex-plugin",
-"gedit-plugins","texlive-full", "bpython"]:
+"gedit-plugins","texlive-full", "bpython", "xchm","libv8-dev","buildbot", 
+"xclip"]:
   ensure => installed,
   require => Exec["/usr/bin/apt-get update"]
 }

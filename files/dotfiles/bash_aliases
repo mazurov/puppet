@@ -1,1 +1,4 @@
 alias gvim='gvim --remote-silent'
+# Working woth clipboard
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'

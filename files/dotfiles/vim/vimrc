@@ -104,7 +104,7 @@ iabbrev am@ alexander.mazurov@gmail.com
 " Searching and movement ------------------------------------------------------ {{{
 
 " Use sane regexes.
-nnoremap / /\v 
+nnoremap / /\v
 vnoremap / /\v
 
 set ignorecase
