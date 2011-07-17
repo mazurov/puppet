@@ -590,13 +590,14 @@ let g:lisp_rainbow = 1
 " }}}
 " Easymotion {{{
 
-let g:EasyMotion_do_mapping = 0
+let g:EasyMotion_do_mapping = 1
+let g:EasyMotion_leader_key = "<Leader>m"
 
-nnoremap <silent> <Leader>f      :call EasyMotionF(0, 0)<CR>
-vnoremap <silent> <Leader>f :<C-U>call EasyMotionF(1, 0)<CR>
+"nnoremap <silent> <Leader>f      :call EasyMotionF(0, 0)<CR>
+"vnoremap <silent> <Leader>f :<C-U>call EasyMotionF(1, 0)<CR>
 
-nnoremap <silent> <Leader>F      :call EasyMotionF(0, 1)<CR>
-vnoremap <silent> <Leader>F :<C-U>call EasyMotionF(1, 1)<CR>
+"nnoremap <silent> <Leader>F      :call EasyMotionF(0, 1)<CR>
+"vnoremap <silent> <Leader>F :<C-U>call EasyMotionF(1, 1)<CR>
 
 " }}}
 " Sparkup {{{
