@@ -60,6 +60,16 @@ file { "${home_folder}/.bashrc":
   source => "file://${local_files}/dotfiles/bashrc"
 }
 
+file { "${home_folder}/t":
+  owner => "${user}",
+  group => "${user}",
+  recurse => true,
+  ignore => ['.git','tests'],
+  mode => 0640,
+  source => "file://${local_files}/home/t",
+}
+
+
 file { "${home_folder}/.bash_aliases":
   owner => "${user}",
   group => "${user}",
@@ -150,7 +160,7 @@ package { ["skype","google-chrome-beta", "flashplugin-installer", "git",
 "erlang-dev", "libpam0g-dev", "valgrind", "cmake", "cmake-curses-gui", 
 "doxygen", "mongodb-10gen", "graphviz", "exuberant-ctags", "gedit-latex-plugin",
 "gedit-plugins","texlive-full", "bpython", "xchm","libv8-dev","buildbot", 
-"xclip", "autoconf", "libtool", "checkinstall", "swig", "zsh"]:
+"xclip", "autoconf", "libtool", "checkinstall", "swig", "zsh", "dvtm"]:
   ensure => installed,
   require => Exec["/usr/bin/apt-get update"]
 }
