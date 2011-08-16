@@ -160,7 +160,8 @@ package { ["skype","google-chrome-beta", "flashplugin-installer", "git",
 "erlang-dev", "libpam0g-dev", "valgrind", "cmake", "cmake-curses-gui", 
 "doxygen", "mongodb-10gen", "graphviz", "exuberant-ctags", "gedit-latex-plugin",
 "gedit-plugins","texlive-full", "bpython", "xchm","libv8-dev","buildbot", 
-"xclip", "autoconf", "libtool", "checkinstall", "swig", "zsh", "dvtm"]:
+"xclip", "autoconf", "libtool", "checkinstall", "swig", "zsh", "dvtm", 
+"libqt4-dev"]:
   ensure => installed,
   require => Exec["/usr/bin/apt-get update"]
 }
